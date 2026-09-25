@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: LOGIN-SERVICE
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:9090}
+server:
+  port: 8083
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+security:
+  jwt:
+    secret: ${JWT_SECRET:change-this-secret-to-at-least-32-characters-long}
+    expiration-ms: ${JWT_EXPIRATION_MS:3600000}

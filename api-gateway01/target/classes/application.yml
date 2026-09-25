@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - "http://localhost:3000"
+                  - "http://localhost:5173"
+                allowedMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+                allowedHeaders: "*"
+                allowCredentials: true
+          routes:
+            - id: register-service
+              uri: lb://REGISTER-SERVICE
+              predicates:
+                - Path=/auth/register/**
+            - id: login-service
+              uri: lb://LOGIN-SERVICE
+              predicates:
+                - Path=/auth/login/**
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
